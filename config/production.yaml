@@ -1,0 +1,162 @@
+# Production Environment Configuration
+# CRITICAL: All secrets MUST be in .env file!
+# This file should be safe to commit to git (no secrets!)
+
+# Logging
+log_level: INFO
+log_to_file: true
+log_file_path: logs/production.log
+
+# Database Configuration
+database:
+  # Connection settings (credentials from .env)
+  host: localhost
+  port: 5432
+  database: trading_bot
+
+  # Production pool settings
+  pool_size: 10
+  max_overflow: 20
+  pool_timeout: 30
+  pool_recycle: 3600
+
+  # Query settings
+  query_timeout: 30
+  statement_timeout: 60000
+
+  # SSL required in production
+  ssl_mode: require
+
+# Exchange Configuration
+exchange:
+  # Exchange settings
+  name: binance
+  enabled: true
+  testnet: false  # LIVE trading!
+
+  # Trading pairs (focus on SOL for now)
+  symbols:
+    - SOL/USDT
+  default_symbol: SOL/USDT
+
+  # Timeframes (fewer in production for efficiency)
+  timeframes:
+    - 5m
+    - 15m
+    - 1h
+    - 4h
+  default_timeframe: 5m
+
+  # Conservative rate limiting for production
+  rate_limit:
+    requests_per_minute: 600
+    orders_per_minute: 50
+    burst_size: 5
+
+  # Connection settings
+  timeout: 30
+  retry_attempts: 5
+  retry_delay: 2.0
+
+  # Data collection
+  fetch_ohlcv_limit: 500
+  enable_websocket: true
+
+# Trading Configuration
+trading:
+  # Trading mode
+  mode: live  # PRODUCTION - LIVE TRADING!
+
+  # Portfolio (adjust based on your capital)
+  initial_capital: 1000.0  # Start small in production!
+  reserve_capital_pct: 0.2  # Keep 20% reserve
+
+  # Conservative position limits
+  max_open_positions: 1  # Start with 1 position max
+  allow_short_positions: false
+
+  # Conservative risk management
+  risk_management:
+    # Position sizing
+    max_position_size: 0.05  # Max 5% per position
+    position_sizing_method: fixed
+
+    # Strict risk limits
+    max_risk_per_trade: 0.01  # Max 1% risk per trade
+    max_daily_loss: 0.03  # Max 3% daily loss
+    max_drawdown: 0.1  # Stop at 10% drawdown
+
+    # Tight stop loss / Take profit
+    use_stop_loss: true
+    stop_loss_pct: 0.015  # 1.5% stop loss
+    use_take_profit: true
+    take_profit_pct: 0.03  # 3% take profit
+    use_trailing_stop: true
+    trailing_stop_pct: 0.01  # 1% trailing stop
+
+  # Execution settings
+  execution:
+    default_order_type: limit  # Use limit orders in production
+    limit_order_offset_pct: 0.0005
+    max_slippage_pct: 0.003  # Stricter slippage control
+
+    # Real Binance fees
+    maker_fee: 0.0001  # 0.01% with BNB
+    taker_fee: 0.0004  # 0.04% with BNB
+
+    # Timing
+    order_timeout: 60
+    cancel_open_orders_on_stop: true
+
+  # Session settings
+  log_trades: true
+  log_performance: true
+
+# Data Quality Configuration
+data_quality:
+  enabled: true
+  check_interval_minutes: 5  # More frequent checks in production
+  store_results: true
+
+  # Critical alerts
+  alert_on_failure: true
+  alert_methods:
+    - log
+    - database
+    # Add email/slack when configured:
+    # - email
+    # - slack
+  min_severity_for_alert: warning
+
+  # Strict outlier detection
+  outlier_detection:
+    enabled: true
+    method: zscore
+    zscore_threshold: 3.0
+    iqr_multiplier: 1.5
+    handle_outliers: flag  # Don't auto-modify in production
+
+  # Strict missing data handling
+  missing_data:
+    enabled: true
+    max_missing_pct: 0.01  # Only 1% missing allowed
+    handle_missing: forward_fill
+    max_gap_minutes: 15  # Flag gaps > 15 min
+
+  # Strict validation
+  validation:
+    validate_price_ranges: true
+    validate_volume: true
+    max_price_change_pct: 0.3  # Flag 30%+ moves
+    validate_timestamps: true
+    allow_duplicates: false
+    validate_features: true
+    feature_bounds:
+      rsi_14: [0, 100]
+      stoch_k: [0, 100]
+      stoch_d: [0, 100]
+      cci: [-500, 500]
+      adx: [0, 100]
+
+  # Longer retention for production data
+  keep_results_days: 180

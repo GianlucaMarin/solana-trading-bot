@@ -1,0 +1,138 @@
+# Python
+__pycache__/
+*.py[cod]
+*$py.class
+*.so
+.Python
+build/
+develop-eggs/
+dist/
+downloads/
+eggs/
+.eggs/
+lib/
+lib64/
+parts/
+sdist/
+var/
+wheels/
+pip-wheel-metadata/
+share/python-wheels/
+*.egg-info/
+.installed.cfg
+*.egg
+MANIFEST
+
+# Virtual Environment
+venv/
+env/
+ENV/
+env.bak/
+venv.bak/
+.venv/
+
+# IDE
+.vscode/
+.idea/
+*.swp
+*.swo
+*~
+.DS_Store
+
+# Environment Variables
+.env
+.env.local
+.env.*.local
+
+# Logs
+logs/
+*.log
+
+# Database
+*.db
+*.sqlite
+*.sqlite3
+
+# Data
+data/raw/*
+data/processed/*
+data/cache/*
+!data/raw/.gitkeep
+!data/processed/.gitkeep
+!data/cache/.gitkeep
+
+# Models
+models/checkpoints/*
+models/production/*
+!models/checkpoints/.gitkeep
+!models/production/.gitkeep
+
+# Jupyter Notebooks
+.ipynb_checkpoints
+*.ipynb
+
+# Testing
+.coverage
+.pytest_cache/
+htmlcov/
+.tox/
+.nox/
+
+# MyPy
+.mypy_cache/
+.dmypy.json
+dmypy.json
+
+# Ruff
+.ruff_cache/
+
+# TensorBoard
+logs/tensorboard/
+runs/
+
+# MLflow
+mlruns/
+mlartifacts/
+
+# Temporary files
+*.tmp
+*.bak
+*.swp
+*~
+
+# OS
+.DS_Store
+Thumbs.db
+
+# API Keys & Secrets
+*.pem
+*.key
+secrets/
+credentials/
+
+# Docker
+docker/data/
+docker/logs/
+
+# Optuna
+.optuna/
+
+# Distribution / packaging
+.Python
+build/
+develop-eggs/
+dist/
+downloads/
+eggs/
+.eggs/
+lib/
+lib64/
+parts/
+sdist/
+var/
+wheels/
+share/python-wheels/
+*.egg-info/
+.installed.cfg
+*.egg
+MANIFEST

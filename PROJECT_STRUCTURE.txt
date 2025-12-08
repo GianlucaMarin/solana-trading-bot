@@ -1,0 +1,143 @@
+solana-rl-bot/
+│
+├── src/
+│   └── solana_rl_bot/              # Main Python package
+│       ├── __init__.py
+│       │
+│       ├── data/                    # Data collection & processing
+│       │   ├── __init__.py
+│       │   ├── collectors/          # Exchange API clients
+│       │   │   ├── __init__.py
+│       │   │   ├── base.py
+│       │   │   ├── binance_collector.py
+│       │   │   └── jupiter_collector.py
+│       │   ├── processors/          # Feature engineering
+│       │   │   ├── __init__.py
+│       │   │   └── feature_builder.py
+│       │   └── storage/             # Database interfaces
+│       │       ├── __init__.py
+│       │       ├── timescale_manager.py
+│       │       └── cache.py
+│       │
+│       ├── features/                # Feature Engineering
+│       │   ├── __init__.py
+│       │   ├── technical.py         # Technical indicators
+│       │   ├── patterns.py          # Candlestick patterns
+│       │   └── regime.py            # Market regime detection
+│       │
+│       ├── environments/            # Gymnasium Trading Environments
+│       │   ├── __init__.py
+│       │   ├── base_env.py
+│       │   ├── backtest_env.py
+│       │   └── live_env.py
+│       │
+│       ├── strategies/              # ⭐ Baseline Strategies
+│       │   ├── __init__.py
+│       │   ├── base_strategy.py
+│       │   ├── buy_hold.py
+│       │   ├── sma_crossover.py
+│       │   ├── rsi_mean_reversion.py
+│       │   ├── vwap_bounce.py
+│       │   └── bollinger_bands.py
+│       │
+│       ├── agents/                  # RL Agents
+│       │   ├── __init__.py
+│       │   ├── base_agent.py
+│       │   ├── ppo/                 # Proximal Policy Optimization
+│       │   │   ├── __init__.py
+│       │   │   ├── agent.py
+│       │   │   └── policy.py
+│       │   ├── dqn/                 # Deep Q-Network
+│       │   │   ├── __init__.py
+│       │   │   └── agent.py
+│       │   ├── sac/                 # Soft Actor-Critic
+│       │   │   ├── __init__.py
+│       │   │   └── agent.py
+│       │   ├── a2c/                 # Advantage Actor-Critic
+│       │   │   ├── __init__.py
+│       │   │   └── agent.py
+│       │   └── ensemble/            # Ensemble Methods
+│       │       ├── __init__.py
+│       │       └── ensemble_agent.py
+│       │
+│       ├── training/                # Training Pipeline
+│       │   ├── __init__.py
+│       │   ├── trainer.py
+│       │   ├── callbacks/
+│       │   │   ├── __init__.py
+│       │   │   ├── checkpoint.py
+│       │   │   └── early_stopping.py
+│       │   └── curriculum.py
+│       │
+│       ├── backtesting/             # Backtesting Engine
+│       │   ├── __init__.py
+│       │   ├── backtester.py
+│       │   └── metrics.py
+│       │
+│       ├── risk/                    # Risk Management
+│       │   ├── __init__.py
+│       │   ├── position_sizer.py
+│       │   ├── stop_loss.py
+│       │   └── drawdown_limiter.py
+│       │
+│       ├── live/                    # Live Trading
+│       │   ├── __init__.py
+│       │   ├── live_trader.py
+│       │   ├── order_executor.py
+│       │   └── monitor.py
+│       │
+│       └── utils/                   # Utilities
+│           ├── __init__.py
+│           ├── config.py            # Configuration loading
+│           ├── logging.py           # Logging setup
+│           ├── metrics.py           # Performance metrics
+│           └── visualization.py     # Plotting helpers
+│
+├── configs/                         # Configuration Files
+│   ├── dev.yaml                     # Development config
+│   ├── prod.yaml                    # Production config
+│   └── training.yaml                # Training hyperparameters
+│
+├── data/                            # Data Storage (gitignored)
+│   ├── raw/                         # Raw OHLCV data
+│   ├── processed/                   # Processed features
+│   └── cache/                       # Cached data
+│
+├── tests/                           # Unit & Integration Tests
+│   ├── __init__.py
+│   ├── test_data/
+│   ├── test_environments/
+│   ├── test_agents/
+│   ├── test_strategies/
+│   └── test_backtesting/
+│
+├── notebooks/                       # Jupyter Notebooks
+│   ├── 01_data_exploration.ipynb
+│   ├── 02_feature_engineering.ipynb
+│   ├── 03_baseline_strategies.ipynb
+│   └── 04_rl_training.ipynb
+│
+├── logs/                            # Log Files (gitignored)
+│
+├── models/                          # Saved Models (gitignored)
+│   ├── checkpoints/                 # Training checkpoints
+│   └── production/                  # Production models
+│
+├── docker/                          # Docker Configuration
+│   ├── docker-compose.yml           # TimescaleDB setup
+│   ├── Dockerfile                   # App container (future)
+│   └── init.sql                     # Database schema
+│
+├── scripts/                         # Utility Scripts
+│   ├── download_data.py             # Download historical data
+│   ├── train_agent.py               # Train RL agent
+│   ├── run_backtest.py              # Run backtesting
+│   └── start_paper_trading.py       # Start paper trading
+│
+├── .env.template                    # Environment variables template
+├── .gitignore                       # Git ignore rules
+├── requirements.txt                 # Production dependencies
+├── requirements-dev.txt             # Development dependencies
+├── pyproject.toml                   # Modern Python packaging
+├── Makefile                         # Convenience commands
+└── README.md                        # Project documentation

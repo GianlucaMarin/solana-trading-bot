@@ -1,0 +1,92 @@
+# Training Configuration
+training:
+  # General
+  total_timesteps: 1000000
+  eval_freq: 10000
+  save_freq: 50000
+
+  # Environment
+  n_envs: 4  # Parallel environments
+  normalize_observations: true
+  normalize_rewards: true
+
+# Agent: PPO
+ppo:
+  learning_rate: 0.0003
+  n_steps: 2048
+  batch_size: 64
+  n_epochs: 10
+  gamma: 0.99
+  gae_lambda: 0.95
+  clip_range: 0.2
+  ent_coef: 0.01
+  vf_coef: 0.5
+  max_grad_norm: 0.5
+
+# Agent: DQN
+dqn:
+  learning_rate: 0.0001
+  buffer_size: 100000
+  learning_starts: 10000
+  batch_size: 32
+  gamma: 0.99
+  target_update_interval: 1000
+  exploration_fraction: 0.1
+  exploration_final_eps: 0.05
+
+# Agent: SAC
+sac:
+  learning_rate: 0.0003
+  buffer_size: 100000
+  learning_starts: 10000
+  batch_size: 256
+  gamma: 0.99
+  tau: 0.005
+  ent_coef: auto
+
+# Agent: A2C
+a2c:
+  learning_rate: 0.0007
+  n_steps: 5
+  gamma: 0.99
+  gae_lambda: 1.0
+  ent_coef: 0.01
+  vf_coef: 0.5
+  max_grad_norm: 0.5
+
+# Policy Network
+policy:
+  net_arch:
+    pi: [256, 256]  # Actor network
+    vf: [256, 256]  # Critic network
+  activation_fn: relu
+  use_lstm: false
+  lstm_hidden_size: 64
+
+# Callbacks
+callbacks:
+  early_stopping:
+    enabled: true
+    patience: 100000
+    min_delta: 0.0001
+
+  checkpoint:
+    enabled: true
+    save_best: true
+
+  tensorboard:
+    enabled: true
+
+# Curriculum Learning
+curriculum:
+  enabled: false
+  stages:
+    - name: easy
+      timesteps: 100000
+      market_regime: sideways
+    - name: medium
+      timesteps: 200000
+      market_regime: trending
+    - name: hard
+      timesteps: 700000
+      market_regime: all

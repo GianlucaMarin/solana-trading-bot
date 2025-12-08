@@ -1,0 +1,38 @@
+# Development Configuration
+environment: development
+
+# Trading Configuration
+trading:
+  symbol: SOL/USDT
+  timeframe: 5m
+  initial_capital: 10000
+  max_position_size: 0.1  # 10% of capital
+
+# Exchange
+exchange:
+  name: binance
+  testnet: false
+
+# Risk Management
+risk:
+  max_drawdown: 0.20  # 20%
+  stop_loss_pct: 0.02  # 2%
+  take_profit_pct: 0.05  # 5%
+  max_leverage: 1.0
+
+# Database
+database:
+  host: localhost
+  port: 5432
+  name: trading_bot
+
+# Logging
+logging:
+  level: DEBUG
+  file: logs/dev.log
+
+# Features
+features:
+  use_technical_indicators: true
+  use_sentiment: false
+  lookback_window: 100

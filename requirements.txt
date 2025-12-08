@@ -1,0 +1,46 @@
+# Core Dependencies
+numpy>=1.24.0,<2.0.0
+pandas>=2.0.0
+scipy>=1.10.0
+
+# Machine Learning & RL
+torch>=2.0.0
+stable-baselines3>=2.0.0
+gymnasium>=0.29.0
+tensorboard>=2.13.0
+
+# Data Collection
+ccxt>=4.0.0
+requests>=2.31.0
+websocket-client>=1.6.0
+
+# Solana (Optional - for DEX integration later)
+solana>=0.30.0
+anchorpy>=0.18.0
+
+# Technical Analysis
+pandas-ta>=0.3.14b
+ta-lib>=0.4.28
+
+# Database
+psycopg2-binary>=2.9.0
+sqlalchemy>=2.0.0
+
+# Configuration
+pydantic>=2.0.0
+pydantic-settings>=2.0.0
+python-dotenv>=1.0.0
+pyyaml>=6.0
+
+# Logging & Monitoring
+loguru>=0.7.0
+python-telegram-bot>=20.0
+
+# Visualization
+plotly>=5.14.0
+matplotlib>=3.7.0
+seaborn>=0.12.0
+
+# Utilities
+tqdm>=4.65.0
+python-dateutil>=2.8.0

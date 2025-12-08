@@ -1,0 +1,159 @@
+# Paper Trading Environment Configuration
+# For testing strategies with real market data but simulated trades
+
+# Logging
+log_level: INFO
+log_to_file: true
+log_file_path: logs/paper.log
+
+# Database Configuration
+database:
+  # Connection settings (credentials from .env)
+  host: localhost
+  port: 5432
+  database: trading_bot
+
+  # Connection pool settings
+  pool_size: 8
+  max_overflow: 15
+  pool_timeout: 30
+  pool_recycle: 3600
+
+  # Query settings
+  query_timeout: 30
+  statement_timeout: 60000
+
+  # SSL
+  ssl_mode: prefer
+
+# Exchange Configuration
+exchange:
+  # Exchange settings
+  name: binance
+  enabled: true
+  testnet: false  # Use real market data
+
+  # Trading pairs
+  symbols:
+    - SOL/USDT
+    - BTC/USDT
+  default_symbol: SOL/USDT
+
+  # Timeframes
+  timeframes:
+    - 5m
+    - 15m
+    - 1h
+    - 4h
+  default_timeframe: 5m
+
+  # Rate limiting
+  rate_limit:
+    requests_per_minute: 1000
+    orders_per_minute: 80
+    burst_size: 8
+
+  # Connection settings
+  timeout: 30
+  retry_attempts: 3
+  retry_delay: 1.5
+
+  # Data collection
+  fetch_ohlcv_limit: 1000
+  enable_websocket: true
+
+# Trading Configuration
+trading:
+  # Trading mode
+  mode: paper  # Simulated trading with real data
+
+  # Portfolio (realistic amount for testing)
+  initial_capital: 5000.0
+  reserve_capital_pct: 0.15
+
+  # Position limits (similar to production)
+  max_open_positions: 2
+  allow_short_positions: false
+
+  # Risk management (production-like settings)
+  risk_management:
+    # Position sizing
+    max_position_size: 0.08
+    position_sizing_method: fixed
+
+    # Risk limits
+    max_risk_per_trade: 0.015
+    max_daily_loss: 0.04
+    max_drawdown: 0.15
+
+    # Stop loss / Take profit
+    use_stop_loss: true
+    stop_loss_pct: 0.02
+    use_take_profit: true
+    take_profit_pct: 0.04
+    use_trailing_stop: true
+    trailing_stop_pct: 0.012
+
+  # Execution settings
+  execution:
+    default_order_type: market  # Simulate market orders
+    limit_order_offset_pct: 0.001
+    max_slippage_pct: 0.004
+
+    # Real fees for realistic simulation
+    maker_fee: 0.0001
+    taker_fee: 0.0004
+
+    # Timing
+    order_timeout: 45
+    cancel_open_orders_on_stop: true
+
+  # Session settings
+  log_trades: true
+  log_performance: true
+
+# Data Quality Configuration
+data_quality:
+  enabled: true
+  check_interval_minutes: 10
+  store_results: true
+
+  # Alerts
+  alert_on_failure: true
+  alert_methods:
+    - log
+    - database
+  min_severity_for_alert: warning
+
+  # Outlier detection
+  outlier_detection:
+    enabled: true
+    method: zscore
+    zscore_threshold: 3.0
+    iqr_multiplier: 1.5
+    handle_outliers: clip
+
+  # Missing data
+  missing_data:
+    enabled: true
+    max_missing_pct: 0.03
+    handle_missing: forward_fill
+    max_gap_minutes: 30
+
+  # Validation
+  validation:
+    validate_price_ranges: true
+    validate_volume: true
+    max_price_change_pct: 0.4
+    validate_timestamps: true
+    allow_duplicates: false
+    validate_features: true
+    feature_bounds:
+      rsi_14: [0, 100]
+      stoch_k: [0, 100]
+      stoch_d: [0, 100]
+      cci: [-500, 500]
+      adx: [0, 100]
+
+  # Retention
+  keep_results_days: 120
