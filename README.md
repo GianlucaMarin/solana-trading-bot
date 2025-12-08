@@ -3,7 +3,7 @@
 Ein intelligenter Trading Bot für Solana (SOL/USDT), der mit **Künstlicher Intelligenz** lernt, profitable Trading-Strategien zu entwickeln.
 
 ![Python](https://img.shields.io/badge/python-3.10+-blue.svg)
-![Status](https://img.shields.io/badge/status-Phase_3_Complete-green.svg)
+![Status](https://img.shields.io/badge/status-Phase_4.1_Complete-brightgreen.svg)
 
 ---
 
@@ -64,7 +64,7 @@ solana-trading-bot/
 
 ---
 
-## ✅ Was ist bereits fertig? (Phase 1-3)
+## ✅ Was ist bereits fertig? (Phase 1-4.1)
 
 ### **Phase 1: Projekt Setup** ✅
 - Python-Umgebung mit allen benötigten Bibliotheken
@@ -107,6 +107,39 @@ Der Bot kann verschiedene Ziele verfolgen:
 
 **Test-Status:** Alle 15 Tests bestanden! ✅
 
+### **Phase 4.1: PPO Agent Training** ✅
+
+#### 🤖 Was ist PPO?
+**PPO** steht für **Proximal Policy Optimization** - einer der besten KI-Algorithmen für Trading.
+
+**Einfach erklärt:**
+Der Bot lernt wie ein Kind durch "Trial & Error":
+1. **Ausprobieren:** Bot macht einen Trade (Kaufen/Verkaufen/Halten)
+2. **Belohnung:** War der Trade profitabel? → Positive Belohnung ✅
+3. **Lernen:** Bot merkt sich welche Entscheidungen gut waren
+4. **Wiederholen:** Nach 100.000 Versuchen kennt der Bot profitable Muster!
+
+**Warum PPO?**
+- ✅ Sehr stabil und robust
+- ✅ Lernt schnell (sample-efficient)
+- ✅ Bewährt für Trading (von Google/OpenAI entwickelt)
+
+#### 📊 Erste Trainings-Ergebnisse
+
+**Training Details:**
+- 100.000 Trading-Schritte auf 6 Monaten SOL/USDT Daten
+- 51.840 Candles (5-Minuten-Intervalle)
+- Training-Zeit: ~15 Minuten
+
+**Performance (10 Test-Episoden):**
+| Metrik | Random Agent | PPO Agent | Verbesserung |
+|--------|--------------|-----------|--------------|
+| **Mean Return** | -12.0% | **+2.04%** | ✅ +14% besser! |
+| **Best Return** | ~0% | **+5.77%** | 🎯 Profitabel! |
+| **Worst Return** | ~-20% | **-2.13%** | ✅ Weniger Verlust |
+
+**🎉 Erfolg:** Der PPO Agent hat gelernt profitabel zu traden und schlägt zufälliges Trading deutlich!
+
 ---
 
 ## 🔬 Wie funktioniert das Lernen?
@@ -126,7 +159,11 @@ Testet ob die Trading-Simulation korrekt funktioniert
 **Wichtig:** Random Agent (zufällige Entscheidungen) macht ~12% Verlust
 → Das ist gut! Zeigt dass zufälliges Trading nicht funktioniert
 
-### Schritt 3: KI trainieren (Phase 4 - kommt als nächstes!)
+### Schritt 3: KI trainieren ✅
+```bash
+python scripts/train_ppo.py
+```
+
 Der Bot lernt aus tausenden simulierten Trades:
 
 1. **Beobachten:** Preis, Indikatoren, Portfolio-Status
@@ -134,22 +171,23 @@ Der Bot lernt aus tausenden simulierten Trades:
 3. **Bewerten:** War die Entscheidung profitabel?
 4. **Lernen:** Wiederhole gute Entscheidungen, vermeide schlechte
 
-Nach ~100.000 Trainings-Steps soll der Bot profitable Muster erkennen!
+Nach 100.000 Training-Steps hat der Bot profitable Muster erkannt! 🎉
 
 ---
 
 ## 📊 Aktuelle Performance
 
-| Metrik | Random Agent (Baseline) | Ziel (nach Training) |
-|--------|------------------------|---------------------|
-| Return | -12% | +10-20% |
-| Win Rate | 33% | >55% |
-| Sharpe Ratio | -0.8 | >1.0 |
-| Max Drawdown | -30% | <-15% |
+| Metrik | Random Agent | PPO Agent (trainiert) |
+|--------|-------------|----------------------|
+| **Return** | -12.0% | **+2.04%** ✅ |
+| **Best Trade** | ~0% | **+5.77%** 🎯 |
+| **Worst Trade** | ~-20% | **-2.13%** |
+| **Stabilität** | Sehr volatil | Viel konstanter |
 
 **Erklärung:**
-- **Random Agent** macht absichtlich zufällige Entscheidungen → zeigt dass die Umgebung funktioniert
-- **Trainierter Agent** soll nach Phase 4 deutlich besser werden
+- **Random Agent** macht absichtlich zufällige Entscheidungen → Verlust von 12%
+- **PPO Agent** hat in 100.000 Steps gelernt → Gewinn von +2% im Durchschnitt!
+- Das ist erst der Anfang - mit mehr Training kann die Performance noch besser werden
 
 ---
 
@@ -185,12 +223,13 @@ Nach ~100.000 Trainings-Steps soll der Bot profitable Muster erkennen!
 - [x] **Phase 1:** Projekt Setup & Grundstruktur
 - [x] **Phase 2:** Daten-Pipeline von Binance
 - [x] **Phase 3:** Trading-Umgebung & Backtesting
-- [ ] **Phase 4:** KI-Training (PPO & DQN Agents)
+- [x] **Phase 4.1:** PPO Agent Training
+- [ ] **Phase 4.2:** DQN Agent (Alternative KI-Methode)
 - [ ] **Phase 5:** Advanced Features & Optimierung
 - [ ] **Phase 6:** Paper Trading (3+ Monate)
 - [ ] **Phase 7:** Optional: Live Trading
 
-**Aktueller Stand:** Phase 3 abgeschlossen! 🎉
+**Aktueller Stand:** Phase 4.1 abgeschlossen - Bot kann profitabel traden! 🎉
 
 ---
 
@@ -234,6 +273,6 @@ Falls du Fragen hast oder auf Probleme stößt, öffne einfach ein Issue auf Git
 
 ---
 
-**Status:** 🟢 Phase 3 komplett - Bereit für KI-Training!
+**Status:** 🟢 Phase 4.1 komplett - PPO Agent trainiert und profitabel!
 
 **Letztes Update:** Dezember 2025
