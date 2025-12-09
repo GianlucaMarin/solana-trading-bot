@@ -107,6 +107,24 @@ Der Bot kann verschiedene Ziele verfolgen:
 
 **Test-Status:** Alle 15 Tests bestanden! ✅
 
+#### 3.5 Risk Management (Solana-optimiert)
+
+Solana ist extrem volatil - deshalb haben wir ein spezielles Risk Management System entwickelt:
+
+| Parameter | 5min Timeframe | Warum? |
+|-----------|---------------|--------|
+| **Stop-Loss** | -8% | SOL kann schnell 10%+ fallen |
+| **Take-Profit** | +15% | Gewinne mitnehmen bevor Reversal |
+| **Trailing Stop** | 4% (ab +6%) | Gewinne absichern |
+| **Max Position** | 25% | Nie alles auf eine Karte |
+| **Max Daily Loss** | -8% | Tages-Verlust begrenzen |
+| **Max Drawdown** | -20% | Gesamtverlust limitieren |
+
+**Warum Solana-spezifisch?**
+- SOL hat 3-5x höhere Volatilität als Bitcoin
+- Standard-Werte (2% Stop-Loss) werden sofort ausgelöst
+- Unsere Werte sind auf SOL's Bewegungsmuster kalibriert
+
 ### **Phase 4: KI-Algorithmen Vergleich** ✅
 
 Wir haben drei verschiedene Reinforcement Learning Algorithmen implementiert, trainiert und verglichen:
