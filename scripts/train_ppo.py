@@ -86,15 +86,15 @@ def main():
 
     # 5. Training
     logger.info("Starte Training...")
-    logger.info("Das kann einige Minuten dauern...\n")
+    logger.info("Dies wird 1-2 Stunden dauern (500k Steps)...\n")
 
     agent.train(
-        total_timesteps=100_000,  # 100k Steps f�r ersten Test
+        total_timesteps=500_000,  # 500k Steps für besseres Lernen
         eval_env=test_env,
-        eval_freq=10_000,  # Alle 10k Steps evaluieren
+        eval_freq=25_000,  # Alle 25k Steps evaluieren
         n_eval_episodes=5,
         save_path="./models/ppo/",
-        checkpoint_freq=25_000,
+        checkpoint_freq=100_000,  # Alle 100k Steps Checkpoint
     )
 
     logger.info("\n=== Training Complete! ===\n")
@@ -112,7 +112,7 @@ def main():
     logger.info("\n" + "=" * 50)
     logger.info("TRAINING SUMMARY")
     logger.info("=" * 50)
-    logger.info(f"Total Training Steps: 100,000")
+    logger.info(f"Total Training Steps: 500,000")
     logger.info(f"Training Episodes: {len(train_df) // train_env.window_size}")
     logger.info(f"\nFinal Test Performance:")
     logger.info(f"  Mean Return: {stats['mean_return']*100:.2f}%")

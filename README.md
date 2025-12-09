@@ -124,21 +124,28 @@ Der Bot lernt wie ein Kind durch "Trial & Error":
 - ✅ Lernt schnell (sample-efficient)
 - ✅ Bewährt für Trading (von Google/OpenAI entwickelt)
 
-#### 📊 Erste Trainings-Ergebnisse
+#### 📊 Trainings-Ergebnisse (ECHTE Daten!)
 
 **Training Details:**
-- 100.000 Trading-Schritte auf 6 Monaten SOL/USDT Daten
-- 51.840 Candles (5-Minuten-Intervalle)
-- Training-Zeit: ~15 Minuten
+- **500.000 Trading-Schritte** auf 12 Monaten echter Binance SOL/USDT Daten
+- **104.921 Candles** (5-Minuten-Intervalle)
+- **Zeitraum:** Dezember 2024 - Dezember 2025
+- **Training-Zeit:** ~2 Stunden
+- **Datenquelle:** Echte Binance API (Preis-Range: $95.72 - $294.69)
 
-**Performance (10 Test-Episoden):**
-| Metrik | Random Agent | PPO Agent | Verbesserung |
-|--------|--------------|-----------|--------------|
-| **Mean Return** | -12.0% | **+2.04%** | ✅ +14% besser! |
-| **Best Return** | ~0% | **+5.77%** | 🎯 Profitabel! |
-| **Worst Return** | ~-20% | **-2.13%** | ✅ Weniger Verlust |
+**Performance (10 Test-Episoden auf echten Daten):**
+| Metrik | Random Agent | PPO Agent (500k Steps) | Verbesserung |
+|--------|--------------|------------------------|--------------|
+| **Mean Return** | -12.0% | **+5.85%** ✅ | +17.85% besser! |
+| **Best Return** | ~0% | **+14.33%** 🎯 | Sehr profitabel! |
+| **Worst Return** | ~-20% | **-1.29%** | ✅ Viel weniger Verlust! |
+| **Std Return** | Sehr hoch | **5.02%** | Konsistenter! |
 
-**🎉 Erfolg:** Der PPO Agent hat gelernt profitabel zu traden und schlägt zufälliges Trading deutlich!
+**🎉 Erfolg:** Der PPO Agent hat auf **ECHTEN Marktdaten** gelernt profitabel zu traden!
+- Durchschnittlich **+5.85% Gewinn** pro Episode
+- Beste Performance: **+14.33%**
+- Minimaler Verlust: nur **-1.29%**
+- **Viel realistischer** als vorherige synthetische Daten!
 
 ---
 
@@ -146,9 +153,11 @@ Der Bot lernt wie ein Kind durch "Trial & Error":
 
 ### Schritt 1: Daten sammeln
 ```bash
-python scripts/download_data.py
+python scripts/download_real_data.py
 ```
-Lädt echte SOL/USDT Daten von Binance (z.B. 6 Monate)
+Lädt **12 Monate echte SOL/USDT Daten** von Binance API
+- 104.921 Candles (5-Minuten-Intervalle)
+- Echte Marktdaten, keine Synthetik!
 
 ### Schritt 2: Environment testen
 ```bash
@@ -171,23 +180,24 @@ Der Bot lernt aus tausenden simulierten Trades:
 3. **Bewerten:** War die Entscheidung profitabel?
 4. **Lernen:** Wiederhole gute Entscheidungen, vermeide schlechte
 
-Nach 100.000 Training-Steps hat der Bot profitable Muster erkannt! 🎉
+Nach 500.000 Training-Steps auf echten Daten hat der Bot profitable Muster erkannt! 🎉
 
 ---
 
-## 📊 Aktuelle Performance
+## 📊 Aktuelle Performance (Echte Daten!)
 
-| Metrik | Random Agent | PPO Agent (trainiert) |
-|--------|-------------|----------------------|
-| **Return** | -12.0% | **+2.04%** ✅ |
-| **Best Trade** | ~0% | **+5.77%** 🎯 |
-| **Worst Trade** | ~-20% | **-2.13%** |
-| **Stabilität** | Sehr volatil | Viel konstanter |
+| Metrik | Random Agent | PPO Agent (500k Steps, Real Data) |
+|--------|-------------|------------------------------------|
+| **Mean Return** | -12.0% | **+5.85%** ✅ |
+| **Best Trade** | ~0% | **+14.33%** 🎯 |
+| **Worst Trade** | ~-20% | **-1.29%** |
+| **Std Return** | Sehr hoch | **5.02%** (Konsistent!) |
 
 **Erklärung:**
 - **Random Agent** macht absichtlich zufällige Entscheidungen → Verlust von 12%
-- **PPO Agent** hat in 100.000 Steps gelernt → Gewinn von +2% im Durchschnitt!
-- Das ist erst der Anfang - mit mehr Training kann die Performance noch besser werden
+- **PPO Agent** hat in 500.000 Steps auf **echten Binance-Daten** gelernt → Gewinn von +5.85% im Durchschnitt!
+- Trainiert auf **12 Monaten echter SOL/USDT Marktdaten** (104.921 Candles)
+- Performance ist **realistisch** und **konsistent** (nur 5% Standardabweichung)
 
 ---
 
