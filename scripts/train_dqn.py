@@ -53,7 +53,7 @@ def main():
         initial_balance=10000.0,
         commission=0.001,
         window_size=50,
-        reward_type="profit",  # DQN mit Profit Reward
+        reward_type="sortino",  # DQN mit Sortino Reward (Winner!)
     )
 
     test_env = TradingEnv(
@@ -61,7 +61,7 @@ def main():
         initial_balance=10000.0,
         commission=0.001,
         window_size=50,
-        reward_type="profit",
+        reward_type="sortino",
     )
 
     logger.info("Environments erstellt!\n")

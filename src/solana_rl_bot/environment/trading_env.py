@@ -12,6 +12,7 @@ from gymnasium import spaces
 
 from solana_rl_bot.utils import get_logger
 from solana_rl_bot.environment.rewards import RewardFunction, RewardFactory
+from solana_rl_bot.risk import RiskManager, RiskConfig
 
 logger = get_logger(__name__)
 
@@ -47,6 +48,8 @@ class TradingEnv(gym.Env):
         features: Optional[list] = None,
         reward_function: Optional[RewardFunction] = None,
         reward_type: str = "profit",
+        use_risk_management: bool = True,
+        risk_config: Optional[RiskConfig] = None,
     ):
         """
         Initialisiere Trading Environment.
@@ -59,6 +62,8 @@ class TradingEnv(gym.Env):
             features: Liste von Feature-Namen (None = alle)
             reward_function: Custom RewardFunction (None = nutze reward_type)
             reward_type: Typ der Reward Function ('profit', 'sharpe', 'sortino', 'multi', 'incremental')
+            use_risk_management: Aktiviere Risk Management (Stop-Loss, Position Sizing, etc.)
+            risk_config: Custom RiskConfig (None = Standard SOL-optimiert)
         """
         super().__init__()
 
@@ -116,10 +121,19 @@ class TradingEnv(gym.Env):
         self.position = 0  # 0=keine Position, 1=Long
         self.entry_price = 0.0
 
+        # Risk Management
+        self.use_risk_management = use_risk_management
+        if use_risk_management:
+            self.risk_manager = RiskManager(risk_config or RiskConfig())
+            logger.info(f"Risk Management aktiviert: {self.risk_manager}")
+        else:
+            self.risk_manager = None
+
         # Statistiken
         self.total_reward = 0.0
         self.trades = []
         self.portfolio_history = []
+        self.risk_events = []  # Track Stop-Loss, Take-Profit, etc.
 
         logger.info(
             f"TradingEnv initialisiert: "
@@ -166,6 +180,11 @@ class TradingEnv(gym.Env):
         self.total_reward = 0.0
         self.trades = []
         self.portfolio_history = []
+        self.risk_events = []
+
+        # Reset Risk Manager
+        if self.risk_manager:
+            self.risk_manager.reset(self.initial_balance)
 
         observation = self._get_observation()
         info = self._get_info()
@@ -184,10 +203,40 @@ class TradingEnv(gym.Env):
         """
         # Aktuelle Preis-Daten
         current_price = self.df.iloc[self.current_step]["close"]
+        timestamp = self.df.index[self.current_step] if hasattr(self.df.index, '__getitem__') else None
 
         # Portfolio Value VOR Action tracken (für Reward Functions)
         portfolio_value_before = self._get_portfolio_value()
         self.portfolio_history.append(portfolio_value_before)
+
+        # Risk Management Updates
+        if self.risk_manager:
+            self.risk_manager.update_day(timestamp, self.balance + self.holdings * current_price)
+            self.risk_manager.update_peak(portfolio_value_before)
+
+            # Check Stop-Loss / Take-Profit / Trailing Stop wenn Position offen
+            if self.position == 1:
+                risk_signal = self.risk_manager.on_price_update(current_price)
+                if risk_signal:
+                    # Erzwinge SELL bei Risk Event
+                    action = 2
+                    self.risk_events.append({
+                        "step": self.current_step,
+                        "type": risk_signal,
+                        "price": current_price,
+                        "entry_price": self.entry_price,
+                        "pnl_pct": (current_price - self.entry_price) / self.entry_price,
+                    })
+                    logger.debug(f"Risk Event: {risk_signal} @ ${current_price:.2f}")
+
+            # Check ob neuer Trade erlaubt ist
+            if action == 1 and self.position == 0:
+                can_trade, reason = self.risk_manager.can_open_trade(
+                    portfolio_value_before, self.current_step
+                )
+                if not can_trade:
+                    action = 0  # Blockiere Trade
+                    logger.debug(f"Trade blockiert: {reason}")
 
         # Führe Action aus
         reward = self._execute_action(action, current_price)
@@ -228,12 +277,27 @@ class TradingEnv(gym.Env):
 
         # ACTION 1: BUY (Long öffnen)
         if action == 1 and self.position == 0:
-            # Kaufe mit gesamtem Balance
-            cost = self.balance * (1 - self.commission)
+            # Berechne Position Size (mit Risk Management oder 100%)
+            if self.risk_manager:
+                position_pct = self.risk_manager.calculate_position_size(
+                    balance=self.balance,
+                    current_price=current_price,
+                    volatility=None,  # Könnte ATR hier übergeben werden
+                )
+            else:
+                position_pct = 1.0  # Ohne RM: 100%
+
+            # Kaufe mit berechneter Position Size
+            trade_amount = self.balance * position_pct
+            cost = trade_amount * (1 - self.commission)
             self.holdings = cost / current_price
             self.entry_price = current_price
-            self.balance = 0
+            self.balance = self.balance - trade_amount
             self.position = 1
+
+            # Informiere Risk Manager
+            if self.risk_manager:
+                self.risk_manager.on_trade_open(current_price, self.current_step)
 
             self.trades.append(
                 {
@@ -256,9 +320,13 @@ class TradingEnv(gym.Env):
             profit = revenue - (self.holdings * self.entry_price)
             profit_pct = (current_price - self.entry_price) / self.entry_price
 
-            self.balance = revenue
+            self.balance = self.balance + revenue
             self.holdings = 0
             self.position = 0
+
+            # Informiere Risk Manager
+            if self.risk_manager:
+                self.risk_manager.on_trade_close()
 
             self.trades.append(
                 {
