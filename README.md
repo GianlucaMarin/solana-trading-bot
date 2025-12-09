@@ -149,6 +149,32 @@ Der Bot lernt wie ein Kind durch "Trial & Error":
 
 ---
 
+### **Phase 4.2: DQN Agent** ✅
+
+#### 🎯 Was ist DQN?
+**DQN** steht für **Deep Q-Network** - ein anderer KI-Ansatz als PPO.
+
+**Der Unterschied:**
+- **PPO:** Lernt direkt "was soll ich tun?" (Policy-based)
+- **DQN:** Lernt "wie gut ist jede Action?" (Value-based)
+
+**Einfach erklärt:**
+DQN erstellt eine "Wertetabelle" für jede mögliche Action:
+- **Kaufen** = +X% erwarteter Gewinn
+- **Verkaufen** = +Y% erwarteter Gewinn
+- **Halten** = +Z% erwarteter Gewinn
+→ Wählt immer die Action mit dem höchsten Wert!
+
+**Warum auch DQN testen?**
+- ✅ Andere Lernmethode als PPO
+- ✅ Manchmal besser bei diskreten Actions (Kaufen/Verkaufen/Halten)
+- ✅ Verwendet Experience Replay (lernt aus alten Erfahrungen)
+- ✅ Direkter Vergleich: Welcher Algorithmus ist besser für Trading?
+
+**Status:** Implementation komplett, Training steht bevor!
+
+---
+
 ## 🔬 Wie funktioniert das Lernen?
 
 ### Schritt 1: Daten sammeln
@@ -234,12 +260,12 @@ Nach 500.000 Training-Steps auf echten Daten hat der Bot profitable Muster erkan
 - [x] **Phase 2:** Daten-Pipeline von Binance
 - [x] **Phase 3:** Trading-Umgebung & Backtesting
 - [x] **Phase 4.1:** PPO Agent Training
-- [ ] **Phase 4.2:** DQN Agent (Alternative KI-Methode)
-- [ ] **Phase 5:** Advanced Features & Optimierung
+- [x] **Phase 4.2:** DQN Agent Implementation
+- [ ] **Phase 5:** PPO Optimization & PPO vs DQN Vergleich
 - [ ] **Phase 6:** Paper Trading (3+ Monate)
 - [ ] **Phase 7:** Optional: Live Trading
 
-**Aktueller Stand:** Phase 4.1 abgeschlossen - Bot kann profitabel traden! 🎉
+**Aktueller Stand:** Phase 4.2 abgeschlossen - PPO & DQN Agents bereit! 🎉
 
 ---
 

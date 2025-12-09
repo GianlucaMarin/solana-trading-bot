@@ -61,9 +61,11 @@ data/cache/*
 !data/processed/.gitkeep
 !data/cache/.gitkeep
 
-# Models
-models/checkpoints/*
-models/production/*
+# Models - Exclude all model files and directories
+models/**/*.zip
+models/**/*.pkl
+models/**/
+!models/.gitkeep
 !models/checkpoints/.gitkeep
 !models/production/.gitkeep
 
