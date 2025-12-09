@@ -3,7 +3,7 @@
 Ein intelligenter Trading Bot für Solana (SOL/USDT), der mit **Künstlicher Intelligenz** lernt, profitable Trading-Strategien zu entwickeln.
 
 ![Python](https://img.shields.io/badge/python-3.10+-blue.svg)
-![Status](https://img.shields.io/badge/status-Phase_4.1_Complete-brightgreen.svg)
+![Status](https://img.shields.io/badge/status-Phase_4.2_Complete-brightgreen.svg)
 
 ---
 
@@ -107,71 +107,54 @@ Der Bot kann verschiedene Ziele verfolgen:
 
 **Test-Status:** Alle 15 Tests bestanden! ✅
 
-### **Phase 4.1: PPO Agent Training** ✅
+### **Phase 4: KI-Algorithmen Vergleich** ✅
 
-#### 🤖 Was ist PPO?
-**PPO** steht für **Proximal Policy Optimization** - einer der besten KI-Algorithmen für Trading.
+Wir haben drei verschiedene Reinforcement Learning Algorithmen implementiert, trainiert und verglichen:
 
-**Einfach erklärt:**
-Der Bot lernt wie ein Kind durch "Trial & Error":
-1. **Ausprobieren:** Bot macht einen Trade (Kaufen/Verkaufen/Halten)
-2. **Belohnung:** War der Trade profitabel? → Positive Belohnung ✅
-3. **Lernen:** Bot merkt sich welche Entscheidungen gut waren
-4. **Wiederholen:** Nach 100.000 Versuchen kennt der Bot profitable Muster!
+#### 🤖 Die drei Algorithmen
 
-**Warum PPO?**
-- ✅ Sehr stabil und robust
-- ✅ Lernt schnell (sample-efficient)
-- ✅ Bewährt für Trading (von Google/OpenAI entwickelt)
+| Algorithmus | Typ | Wie funktioniert es? |
+|-------------|-----|---------------------|
+| **PPO** | Policy-based | Lernt direkt "was soll ich tun?" - optimiert die Strategie direkt |
+| **DQN** | Value-based | Lernt "wie gut ist jede Action?" - erstellt Wertetabelle |
+| **SAC** | Actor-Critic | Kombiniert beide + automatische Exploration durch Entropy |
 
-#### 📊 Trainings-Ergebnisse (ECHTE Daten!)
+**PPO (Proximal Policy Optimization)**
+- Lernt durch "Trial & Error" welche Actions gut sind
+- Sehr stabil und robust beim Training
+- Ideal für diskrete Entscheidungen (Buy/Hold/Sell)
 
-**Training Details:**
-- **500.000 Trading-Schritte** auf 12 Monaten echter Binance SOL/USDT Daten
-- **104.921 Candles** (5-Minuten-Intervalle)
-- **Zeitraum:** Dezember 2024 - Dezember 2025
-- **Training-Zeit:** ~2 Stunden
-- **Datenquelle:** Echte Binance API (Preis-Range: $95.72 - $294.69)
+**DQN (Deep Q-Network)**
+- Erstellt eine Wertetabelle für jede Action
+- Verwendet Experience Replay (lernt aus vergangenen Erfahrungen)
+- Gut bei klaren, diskreten Entscheidungen
 
-**Performance (10 Test-Episoden auf echten Daten):**
-| Metrik | Random Agent | PPO Agent (500k Steps) | Verbesserung |
-|--------|--------------|------------------------|--------------|
-| **Mean Return** | -12.0% | **+5.85%** ✅ | +17.85% besser! |
-| **Best Return** | ~0% | **+14.33%** 🎯 | Sehr profitabel! |
-| **Worst Return** | ~-20% | **-1.29%** | ✅ Viel weniger Verlust! |
-| **Std Return** | Sehr hoch | **5.02%** | Konsistenter! |
+**SAC (Soft Actor-Critic)**
+- State-of-the-art für kontinuierliche Control-Tasks
+- Maximiert Reward UND Exploration gleichzeitig
+- 6 neuronale Netze (komplexer, aber oft leistungsfähiger)
 
-**🎉 Erfolg:** Der PPO Agent hat auf **ECHTEN Marktdaten** gelernt profitabel zu traden!
-- Durchschnittlich **+5.85% Gewinn** pro Episode
-- Beste Performance: **+14.33%**
-- Minimaler Verlust: nur **-1.29%**
-- **Viel realistischer** als vorherige synthetische Daten!
+#### 📊 Vergleichs-Ergebnisse
 
----
+Alle drei Agents wurden fair auf **identischen Test-Daten** verglichen:
+- **Test-Zeitraum:** Sept-Dez 2025 (SOL Crash von $203 → $134)
+- **Markt-Performance:** -34% (Buy & Hold)
 
-### **Phase 4.2: DQN Agent** ✅
+| Agent | Portfolio Return | Crash vermieden |
+|-------|-----------------|-----------------|
+| **PPO** | **-3.9%** | 88% ✅ |
+| DQN | -11.2% | 67% |
+| SAC | -17.2% | 50% |
+| Markt | -34.3% | 0% |
 
-#### 🎯 Was ist DQN?
-**DQN** steht für **Deep Q-Network** - ein anderer KI-Ansatz als PPO.
+#### 🏆 Warum PPO gewonnen hat
 
-**Der Unterschied:**
-- **PPO:** Lernt direkt "was soll ich tun?" (Policy-based)
-- **DQN:** Lernt "wie gut ist jede Action?" (Value-based)
+1. **Beste Performance:** Nur -3.9% in einem -34% Crash
+2. **Diskrete Actions:** Trading ist Buy/Hold/Sell - perfekt für PPO
+3. **Stabilität:** On-policy Learning ist robuster bei volatilen Märkten
+4. **SAC-Problem:** SAC braucht kontinuierliche Actions, unser Trading ist aber diskret
 
-**Einfach erklärt:**
-DQN erstellt eine "Wertetabelle" für jede mögliche Action:
-- **Kaufen** = +X% erwarteter Gewinn
-- **Verkaufen** = +Y% erwarteter Gewinn
-- **Halten** = +Z% erwarteter Gewinn
-→ Wählt immer die Action mit dem höchsten Wert!
-
-**Warum auch DQN testen?**
-- ✅ Andere Lernmethode als PPO
-- ✅ Manchmal besser bei diskreten Actions (Kaufen/Verkaufen/Halten)
-- ✅ Verwendet Experience Replay (lernt aus alten Erfahrungen)
-- ✅ Direkter Vergleich: Welcher Algorithmus ist besser für Trading?
-
-**Status:** Implementation komplett, Training steht bevor!
+**Fazit:** PPO ist unser Winner und wird für alle weiteren Timeframes verwendet!
 
 ---
 
@@ -210,20 +193,21 @@ Nach 500.000 Training-Steps auf echten Daten hat der Bot profitable Muster erkan
 
 ---
 
-## 📊 Aktuelle Performance (Echte Daten!)
+## 📊 Aktuelle Performance
 
-| Metrik | Random Agent | PPO Agent (500k Steps, Real Data) |
-|--------|-------------|------------------------------------|
-| **Mean Return** | -12.0% | **+5.85%** ✅ |
-| **Best Trade** | ~0% | **+14.33%** 🎯 |
-| **Worst Trade** | ~-20% | **-1.29%** |
-| **Std Return** | Sehr hoch | **5.02%** (Konsistent!) |
+**Test-Szenario:** SOL/USDT Crash Sept-Dez 2025 (-34%)
+
+| Agent | Return | vs. Markt |
+|-------|--------|-----------|
+| Buy & Hold | -34.3% | Baseline |
+| **PPO** | **-3.9%** | +30% besser ✅ |
+| DQN | -11.2% | +23% besser |
+| SAC | -17.2% | +17% besser |
 
 **Erklärung:**
-- **Random Agent** macht absichtlich zufällige Entscheidungen → Verlust von 12%
-- **PPO Agent** hat in 500.000 Steps auf **echten Binance-Daten** gelernt → Gewinn von +5.85% im Durchschnitt!
-- Trainiert auf **12 Monaten echter SOL/USDT Marktdaten** (104.921 Candles)
-- Performance ist **realistisch** und **konsistent** (nur 5% Standardabweichung)
+- Alle Agents haben den **-34% Crash** deutlich abgefedert
+- **PPO** hat 88% des Verlustes vermieden - der beste Agent!
+- Das zeigt: Die KI hat gelernt, Risiko zu managen
 
 ---
 
@@ -232,7 +216,7 @@ Nach 500.000 Training-Steps auf echten Daten hat der Bot profitable Muster erkan
 | Was | Technologie |
 |-----|------------|
 | **Programmiersprache** | Python 3.10+ |
-| **KI Framework** | Stable-Baselines3 (PPO, DQN) |
+| **KI Framework** | Stable-Baselines3 (PPO, DQN, SAC) |
 | **Data Science** | pandas, numpy, ta-lib |
 | **Trading Simulation** | Gymnasium (von OpenAI) |
 | **Datenquelle** | Binance API |
@@ -259,13 +243,13 @@ Nach 500.000 Training-Steps auf echten Daten hat der Bot profitable Muster erkan
 - [x] **Phase 1:** Projekt Setup & Grundstruktur
 - [x] **Phase 2:** Daten-Pipeline von Binance
 - [x] **Phase 3:** Trading-Umgebung & Backtesting
-- [x] **Phase 4.1:** PPO Agent Training
-- [x] **Phase 4.2:** DQN Agent Implementation
-- [ ] **Phase 5:** PPO Optimization & PPO vs DQN Vergleich
-- [ ] **Phase 6:** Paper Trading (3+ Monate)
-- [ ] **Phase 7:** Optional: Live Trading
+- [x] **Phase 4:** KI-Algorithmen (PPO, DQN, SAC) → Winner: PPO
+- [ ] **Phase 5:** Hyperparameter Tuning (Optuna)
+- [ ] **Phase 6:** Multi-Timeframe Ensemble
+- [ ] **Phase 7:** Paper Trading (4+ Wochen)
+- [ ] **Phase 8:** Live Trading
 
-**Aktueller Stand:** Phase 4.2 abgeschlossen - PPO & DQN Agents bereit! 🎉
+**Aktueller Stand:** Phase 4 abgeschlossen - PPO als bester Algorithmus ausgewählt!
 
 ---
 
@@ -309,6 +293,6 @@ Falls du Fragen hast oder auf Probleme stößt, öffne einfach ein Issue auf Git
 
 ---
 
-**Status:** 🟢 Phase 4.1 komplett - PPO Agent trainiert und profitabel!
+**Status:** 🟢 Phase 4 komplett - PPO als Winner ausgewählt!
 
 **Letztes Update:** Dezember 2025
